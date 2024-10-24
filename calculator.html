@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Basic Calculator</h1>
+    <input type="number" id="num1" placeholder="Number 1" required>
+    <input type="number" id="num2" placeholder="Number 2" required>
+    <select id="operation">
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="multiply">Multiply</option>
+        <option value="divide">Divide</option>
+    </select>
+    <button id="calculate">Calculate</button>
+    <h2 id="result"></h2>
+
+    <script>
+        function calculator(num1, num2, operation) {
+            return new Promise((resolve, reject) => {
+                switch (operation) {
+                    case 'add':
+                        resolve(num1 + num2);
+                        break;
+                    case 'subtract':
+                        resolve(num1 - num2);
+                        break;
+                    case 'multiply':
+                        resolve(num1 * num2);
+                        break;
+                    case 'divide':
+                        if (num2 === 0) {
+                            reject('Error: Division by zero');
+                        } else {
+                            resolve(num1 / num2);
+                        }
+                        break;
+                    default:
+                        reject('Error: Invalid operation');
+                }
+            });
+        }
+
+        document.getElementById('calculate').addEventListener('click', () => {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+
+            calculator(num1, num2, operation)
+                .then(result => {
+                    document.getElementById('result').textContent = 'Result: ' + result;
+                })
+                .catch(error => {
+                    document.getElementById('result').textContent = error;
+                });
+        });
+    </script>
+</body>
+</html>
